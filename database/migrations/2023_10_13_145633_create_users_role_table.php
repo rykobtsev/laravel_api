@@ -11,9 +11,15 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('users_role', function (Blueprint $table) {
-            $table->integer('id_user')->unique;
-            $table->integer('id_role');
+            $table->unsignedBigInteger('id_user')->unique;
+            $table->unsignedBigInteger('id_role');
             $table->timestamps();
+
+            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_role')->references('id')->on('roles');
+
+            // $table->index('id_user');
+            // $table->index('id_role');
         });
     }
 
