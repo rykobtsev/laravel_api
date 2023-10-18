@@ -24,20 +24,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route::post('/register', [RegisterController::class, 'register']);
 // Route::post('/login', [LoginController::class, 'login']);
+// Route::post('/sanctum/csrf-cookie', function (Request $request) {
+//     return response()->json(['message' => 'CSRF cookie set']);
+// });
 
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login')->middleware('clear-expired-tokens');
 
 Route::middleware('auth:sanctum')->group(function () {
     //LogOut user
-    Route::get('/logout', 'AuthController@logout');
+    Route::delete('/logout', 'AuthController@logout');
 
     //Users route
     Route::get('/user', 'UserController@profile');
-    Route::post('/user/{id}', 'UserController@update');
-    Route::post('/user/status/{id}', 'UserController@setStatus');
+    Route::get('/user/{id}', 'UserController@show');
+    Route::post('/user', 'UserController@update');
+    Route::post('/user/status', 'UserController@setStatus');
     Route::delete('/user/{id}', 'UserController@destroy');
     Route::get('/users', 'UserController@list');
+    Route::post('/users/find', 'UserController@search');
 
     Route::post('/email', 'MailController@sendEmail');
 
